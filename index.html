@@ -96,79 +96,87 @@
 
     <!-- Main Content -->
     <main class="container mx-auto p-4 sm:p-6 lg:p-8">
-        <!-- Customer Info -->
-        <div class="mb-8 p-4 card rounded-lg">
-            <h2 class="text-lg font-semibold mb-4 text-slate-200">Informasi Pemesan</h2>
-            <div class="grid grid-cols-1 gap-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label for="customer-name" class="block text-sm font-medium text-slate-400 mb-1">Nama Pemesan</label>
-                        <input type="text" id="customer-name" class="form-input w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2" placeholder="Masukkan nama lengkap">
-                    </div>
-                    <div>
-                        <label for="customer-phone" class="block text-sm font-medium text-slate-400 mb-1">No. Telp</label>
-                        <input type="tel" id="customer-phone" class="form-input w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2" placeholder="Masukkan nomor telepon">
-                    </div>
-                    <div>
-                        <label for="customer-branch" class="block text-sm font-medium text-slate-400 mb-1">Cabang</label>
-                        <select id="customer-branch" class="form-input w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2">
-                            <option>Pungkur</option>
-                            <option>Ariajipang</option>
-                            <option>Cibiru</option>
-                            <option>Kopo</option>
-                            <option>Karawang</option>
-                            <option>Cirebon</option>
-                            <option>Tasikmalaya</option>
-                            <option>Garut</option>
-                            <option>Indramayu</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="order-type" class="block text-sm font-medium text-slate-400 mb-1">Jenis Order</label>
-                        <select id="order-type" class="form-input w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2">
-                            <option>Regular Order</option>
-                            <option>Urgent</option>
-                            <option>Costumer Order</option>
-                            <option>Pihak Ke-3</option>
-                        </select>
+        <div class="flex flex-col lg:flex-row lg:space-x-8">
+            
+            <!-- Left Column -->
+            <div class="lg:w-2/3">
+                <!-- Search -->
+                <div class="mb-8 p-4 card rounded-lg">
+                    <h2 class="text-lg font-semibold mb-4 text-slate-200">Cari Sparepart</h2>
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <div class="relative flex-grow">
+                            <input type="text" id="search-input" placeholder="Cari berdasarkan nama atau kode sparepart..." class="form-input w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2">
+                            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                        </div>
                     </div>
                 </div>
-                <div>
-                    <label for="customer-notes" class="block text-sm font-medium text-slate-400 mb-1">Catatan</label>
-                    <textarea id="customer-notes" rows="3" class="form-input w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2" placeholder="Tambahkan catatan pesanan..."></textarea>
-                </div>
-            </div>
-        </div>
 
-        <!-- Search -->
-        <div class="mb-8 p-4 card rounded-lg">
-            <h2 class="text-lg font-semibold mb-4 text-slate-200">Cari Sparepart</h2>
-            <div class="flex flex-col md:flex-row gap-4">
-                <div class="relative flex-grow">
-                    <input type="text" id="search-input" placeholder="Cari berdasarkan nama atau kode sparepart..." class="form-input w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2">
-                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                <!-- Product Grid -->
+                <div id="product-grid" class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-6">
+                     <!-- Loading state -->
+                     <div id="loading-state" class="col-span-full flex flex-col items-center justify-center p-10">
+                        <div class="loader"></div>
+                        <p class="mt-4 text-slate-400">Memuat data sparepart...</p>
+                    </div>
+                </div>
+                <div id="no-results" class="text-center py-10 hidden">
+                    <i class="fas fa-box-open text-4xl text-slate-500 mb-4"></i>
+                    <p class="text-slate-400">Produk tidak ditemukan.</p>
+                </div>
+                
+                <!-- Load More Button -->
+                <div id="load-more-container" class="text-center mt-8 hidden">
+                    <button id="load-more-button" class="bg-slate-700 hover:bg-slate-600 border border-slate-600 text-slate-300 px-6 py-2 rounded-lg font-medium transition">
+                        Tampilkan Lebih Banyak
+                    </button>
                 </div>
             </div>
-        </div>
 
-        <!-- Product Grid -->
-        <div id="product-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-             <!-- Loading state -->
-             <div id="loading-state" class="col-span-full flex flex-col items-center justify-center p-10">
-                <div class="loader"></div>
-                <p class="mt-4 text-slate-400">Memuat data sparepart...</p>
+            <!-- Right Column -->
+            <div class="lg:w-1/3 mt-8 lg:mt-0">
+                <!-- Customer Info -->
+                <div class="p-4 card rounded-lg sticky top-24">
+                    <h2 class="text-lg font-semibold mb-4 text-slate-200">Informasi Pemesan</h2>
+                    <div class="grid grid-cols-1 gap-4">
+                        <div>
+                            <label for="customer-name" class="block text-sm font-medium text-slate-400 mb-1">Nama Pemesan</label>
+                            <input type="text" id="customer-name" class="form-input w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2" placeholder="Masukkan nama lengkap">
+                        </div>
+                        <div>
+                            <label for="customer-phone" class="block text-sm font-medium text-slate-400 mb-1">No. Telp</label>
+                            <input type="tel" id="customer-phone" class="form-input w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2" placeholder="Masukkan nomor telepon">
+                        </div>
+                        <div>
+                            <label for="customer-branch" class="block text-sm font-medium text-slate-400 mb-1">Cabang</label>
+                            <select id="customer-branch" class="form-input w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2">
+                                <option>Pungkur</option>
+                                <option>Ariajipang</option>
+                                <option>Cibiru</option>
+                                <option>Kopo</option>
+                                <option>Karawang</option>
+                                <option>Cirebon</option>
+                                <option>Tasikmalaya</option>
+                                <option>Garut</option>
+                                <option>Indramayu</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="order-type" class="block text-sm font-medium text-slate-400 mb-1">Jenis Order</label>
+                            <select id="order-type" class="form-input w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2">
+                                <option>Regular Order</option>
+                                <option>Urgent</option>
+                                <option>Costumer Order</option>
+                                <option>Pihak Ke-3</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="customer-notes" class="block text-sm font-medium text-slate-400 mb-1">Catatan</label>
+                            <textarea id="customer-notes" rows="3" class="form-input w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2" placeholder="Tambahkan catatan pesanan..."></textarea>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div id="no-results" class="text-center py-10 hidden">
-            <i class="fas fa-box-open text-4xl text-slate-500 mb-4"></i>
-            <p class="text-slate-400">Produk tidak ditemukan.</p>
-        </div>
-        
-        <!-- Load More Button -->
-        <div id="load-more-container" class="text-center mt-8 hidden">
-            <button id="load-more-button" class="bg-slate-700 hover:bg-slate-600 border border-slate-600 text-slate-300 px-6 py-2 rounded-lg font-medium transition">
-                Tampilkan Lebih Banyak
-            </button>
+
         </div>
     </main>
 
@@ -200,8 +208,16 @@
     <div id="alert-box" class="fixed top-5 right-5 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg transform translate-x-[120%] transition-transform duration-300 z-50">
         <p id="alert-message"></p>
     </div>
-     <div id="success-box" class="fixed top-5 right-5 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transform translate-x-[120%] transition-transform duration-300 z-50">
-        <p id="success-message"></p>
+    
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 opacity-0 pointer-events-none">
+        <div class="modal-content w-full max-w-md m-4 p-6 rounded-lg text-center">
+            <i class="fas fa-check-circle text-5xl text-green-400 mb-4"></i>
+            <h2 class="text-2xl font-bold text-slate-100">Pesanan Berhasil!</h2>
+            <p id="success-subtext" class="text-slate-400 mt-2">Mohon Catat Nomer Pemesanan</p>
+            <p id="order-number-display" class="text-3xl font-bold text-blue-400 my-4 bg-slate-900 p-3 rounded-lg"></p>
+            <button id="close-success-modal" class="bg-slate-600 hover:bg-slate-500 text-slate-200 px-6 py-2 rounded-lg font-medium transition">Tutup</button>
+        </div>
     </div>
 
     <!-- JavaScript Logic -->
@@ -227,8 +243,10 @@
             const checkoutSpinner = document.getElementById('checkout-spinner');
             const alertBox = document.getElementById('alert-box');
             const alertMessage = document.getElementById('alert-message');
-            const successBox = document.getElementById('success-box');
-            const successMessage = document.getElementById('success-message');
+            const successModal = document.getElementById('success-modal');
+            const orderNumberDisplay = document.getElementById('order-number-display');
+            const successSubtext = document.getElementById('success-subtext');
+            const closeSuccessModalButton = document.getElementById('close-success-modal');
             const loadMoreContainer = document.getElementById('load-more-container');
             const loadMoreButton = document.getElementById('load-more-button');
 
@@ -339,7 +357,7 @@
 
             const filterAndRender = () => {
                 const searchTerm = searchInput.value.toLowerCase();
-                const filtered = searchTerm ? products.filter(p => p.name.toLowerCase().includes(searchTerm) || p.code.toLowerCase().includes(searchTerm)) : products;
+                const filtered = searchTerm ? products.filter(p => p.name.toLowerCase().includes(searchTerm) || String(p.code).toLowerCase().includes(searchTerm)) : products;
                 renderProducts(filtered);
             };
 
@@ -349,13 +367,11 @@
                 if (modal.id === 'cart-modal') modal.classList.toggle('translate-x-full');
             };
 
-            const showMessage = (element, message, isSuccess = false) => {
-                element.parentElement.classList.remove(isSuccess ? 'bg-red-500' : 'bg-green-500');
-                element.parentElement.classList.add(isSuccess ? 'bg-green-500' : 'bg-red-500');
-                element.textContent = message;
-                element.parentElement.classList.remove('translate-x-[120%]');
+            const showAlert = (message) => {
+                alertMessage.textContent = message;
+                alertBox.classList.remove('translate-x-[120%]');
                 setTimeout(() => {
-                    element.parentElement.classList.add('translate-x-[120%]');
+                    alertBox.classList.add('translate-x-[120%]');
                 }, 3000);
             };
 
@@ -371,29 +387,23 @@
             };
 
             async function fetchProducts() {
-                const googleSheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRCZqoxqaQuy0JW5elR5EjxOCly0OX25ocFB0L-75jwHz0VX-Nxy-mdnLKeGH2w_H3iGCD0LSw4A1eR/pub?gid=853100290&single=true&output=csv';
-                if (!googleSheetURL.startsWith('https://')) {
-                    loadingState.parentElement.innerHTML = '<p class="col-span-full text-center text-red-500">URL Google Sheet tidak valid.</p>';
-                    return;
-                }
+                const webAppURL = 'https://script.google.com/macros/s/AKfycbz099FETw0doNdHt2B16tmQ8JcYs-jBUiTT2ycp48C2V6FewSWFPPQFwOPxYRGry-xL8Q/exec';
+                
                 try {
-                    const response = await fetch(googleSheetURL);
+                    const response = await fetch(webAppURL);
                     if (!response.ok) throw new Error(`Network response error: ${response.statusText}`);
-                    const csvText = await response.text();
-                    const lines = csvText.trim().split(/\r?\n/);
-                    const headers = lines[0].split(',').map(h => h.trim());
-                    const data = lines.slice(1).map(line => {
-                        const values = line.split(',').map(v => v.trim());
-                        let entry = {};
-                        headers.forEach((header, index) => { entry[header] = values[index]; });
-                        return entry;
-                    });
-                    products = data.map(item => ({ code: item.code || '', name: item.name || '' })).filter(item => item.code && item.name);
+                    
+                    const data = await response.json();
+                    products = data.map(item => ({ 
+                        code: String(item.code || ''), 
+                        name: item.name || ''
+                    })).filter(item => item.code && item.name);
+
                     loadingState.classList.add('hidden');
                     filterAndRender();
                 } catch (error) {
                     console.error('Gagal mengambil data dari Google Sheet:', error);
-                    loadingState.parentElement.innerHTML = '<p class="col-span-full text-center text-red-500">Gagal memuat data. Pastikan header di Sheet adalah "code" dan "name".</p>';
+                    loadingState.parentElement.innerHTML = '<p class="col-span-full text-center text-red-500">Gagal memuat data. Pastikan sheet "Master_Barang" ada dan header-nya benar.</p>';
                 }
             }
 
@@ -401,11 +411,11 @@
                 const customerName = document.getElementById('customer-name').value.trim();
                 const customerPhone = document.getElementById('customer-phone').value.trim();
                 
-                if (!customerName) return showMessage(alertMessage, 'Nama pemesan harus diisi.');
-                if (!customerPhone) return showMessage(alertMessage, 'No. Telp harus diisi.');
-                if (cart.length === 0) return showMessage(alertMessage, 'Box Saya masih kosong.');
+                if (!customerName) return showAlert('Nama pemesan harus diisi.');
+                if (!customerPhone) return showAlert('No. Telp harus diisi.');
+                if (cart.length === 0) return showAlert('Box Saya masih kosong.');
 
-                const webAppURL = 'https://script.google.com/macros/s/AKfycbzUOzEGvktc03LhV2Dm0EK36MVVvbZnRRQhgQITLFWQiQ2q0leK76WZxORZeZA9HqSp/exec';
+                const webAppURL = 'https://script.google.com/macros/s/AKfycbz099FETw0doNdHt2B16tmQ8JcYs-jBUiTT2ycp48C2V6FewSWFPPQFwOPxYRGry-xL8Q/exec';
 
                 checkoutButtonText.classList.add('hidden');
                 checkoutSpinner.classList.remove('hidden');
@@ -425,7 +435,7 @@
                 try {
                     const response = await fetch(webAppURL, {
                         method: 'POST',
-                        mode: 'no-cors', // Changed to no-cors to bypass redirect/CORS issues
+                        mode: 'no-cors', // Re-added to prevent CORS errors on redirect
                         cache: 'no-cache',
                         headers: {
                             'Content-Type': 'application/json'
@@ -435,18 +445,24 @@
 
                     // With 'no-cors', we can't read the response, so we assume success if fetch doesn't throw.
                     // The Apps Script will still run and post the data.
-                    showMessage(successMessage, 'Pesanan berhasil dikirim!', true);
                     toggleModal(cartModal);
-                    resetForm();
+                    orderNumberDisplay.textContent = "TERKIRIM";
+                    successSubtext.textContent = "Nomor Pemesanan telah dicatat di Google Sheet.";
+                    toggleModal(successModal);
 
                 } catch (error) {
                     console.error('Error submitting order:', error);
-                    showMessage(alertMessage, 'Gagal mengirim pesanan. Periksa koneksi internet Anda.');
+                    showAlert('Gagal mengirim pesanan. Periksa koneksi internet Anda.');
                 } finally {
                     checkoutButtonText.classList.remove('hidden');
                     checkoutSpinner.classList.add('hidden');
                     checkoutButton.disabled = false;
                 }
+            });
+
+            closeSuccessModalButton.addEventListener('click', () => {
+                toggleModal(successModal);
+                resetForm();
             });
 
             productGrid.addEventListener('click', (e) => {
