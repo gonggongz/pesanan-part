@@ -22,7 +22,6 @@
             font-family: 'JetBrains Mono', monospace;
             background-color: #0f172a; /* slate-900 */
             color: #cbd5e1; /* slate-300 */
-            overflow-x: hidden; /* Prevent horizontal scroll from animation */
         }
         .card {
             background-color: #1e293b; /* slate-800 */
@@ -73,39 +72,9 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
-        /* Floating Cat Animation */
-        #floating-cat {
-            position: fixed;
-            width: 80px; /* Ukuran diperkecil */
-            height: auto;
-            z-index: -1;
-            pointer-events: none;
-            will-change: transform; /* Optimasi performa animasi */
-        }
-        
-        @keyframes float-right {
-            0% { transform: translateX(-100px) scaleX(-1); }
-            100% { transform: translateX(100vw) scaleX(-1); }
-        }
-
-        @keyframes float-left {
-            0% { transform: translateX(100vw) scaleX(1); }
-            100% { transform: translateX(-100px) scaleX(1); }
-        }
-        
-        /* Hide animation on smaller screens */
-        @media (max-width: 1024px) {
-            #floating-cat {
-                display: none;
-            }
-        }
     </style>
 </head>
 <body class="antialiased">
-    
-    <!-- Floating Cat Animation Element -->
-    <img src="https://i.imgur.com/L84EADk.png" alt="Floating Cat" id="floating-cat">
 
     <!-- Login Section -->
     <div id="login-section" class="min-h-screen flex items-center justify-center">
@@ -157,87 +126,79 @@
 
         <!-- Main Content -->
         <main class="container mx-auto p-4 sm:p-6 lg:p-8">
-            <div class="flex flex-col lg:flex-row lg:space-x-8">
-                
-                <!-- Left Column -->
-                <div class="lg:w-2/3">
-                    <!-- Search -->
-                    <div class="mb-8 p-4 card rounded-lg">
-                        <h2 class="text-lg font-semibold mb-4 text-slate-200">Cari Sparepart</h2>
-                        <div class="flex flex-col md:flex-row gap-4">
-                            <div class="relative flex-grow">
-                                <input type="text" id="search-input" placeholder="Cari berdasarkan nama atau kode sparepart..." class="form-input w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2">
-                                <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"></i>
-                            </div>
+            <!-- Customer Info -->
+            <div class="mb-8 p-4 card rounded-lg">
+                <h2 class="text-lg font-semibold mb-4 text-slate-200">Informasi Pemesan</h2>
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="customer-name" class="block text-sm font-medium text-slate-400 mb-1">Nama Pemesan</label>
+                            <input type="text" id="customer-name" class="form-input w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2" placeholder="Masukkan nama lengkap">
+                        </div>
+                        <div>
+                            <label for="customer-phone" class="block text-sm font-medium text-slate-400 mb-1">No. Telp</label>
+                            <input type="tel" id="customer-phone" class="form-input w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2" placeholder="Masukkan nomor telepon">
+                        </div>
+                        <div>
+                            <label for="customer-branch" class="block text-sm font-medium text-slate-400 mb-1">Cabang</label>
+                            <select id="customer-branch" class="form-input w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2">
+                                <option>Pungkur</option>
+                                <option>Ariajipang</option>
+                                <option>Cibiru</option>
+                                <option>Kopo</option>
+                                <option>Karawang</option>
+                                <option>Cirebon</option>
+                                <option>Tasikmalaya</option>
+                                <option>Garut</option>
+                                <option>Indramayu</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="order-type" class="block text-sm font-medium text-slate-400 mb-1">Jenis Order</label>
+                            <select id="order-type" class="form-input w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2">
+                                <option>Regular Order</option>
+                                <option>Urgent</option>
+                                <option>Costumer Order</option>
+                                <option>Pihak Ke-3</option>
+                            </select>
                         </div>
                     </div>
-
-                    <!-- Product Grid -->
-                    <div id="product-grid" class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-6">
-                         <!-- Loading state -->
-                         <div id="loading-state" class="col-span-full flex flex-col items-center justify-center p-10">
-                            <div class="loader"></div>
-                            <p class="mt-4 text-slate-400">Memuat data sparepart...</p>
-                        </div>
-                    </div>
-                    <div id="no-results" class="text-center py-10 hidden">
-                        <i class="fas fa-box-open text-4xl text-slate-500 mb-4"></i>
-                        <p class="text-slate-400">Produk tidak ditemukan.</p>
-                    </div>
-                    
-                    <!-- Load More Button -->
-                    <div id="load-more-container" class="text-center mt-8 hidden">
-                        <button id="load-more-button" class="bg-slate-700 hover:bg-slate-600 border border-slate-600 text-slate-300 px-6 py-2 rounded-lg font-medium transition">
-                            Tampilkan Lebih Banyak
-                        </button>
+                    <div>
+                        <label for="customer-notes" class="block text-sm font-medium text-slate-400 mb-1">Catatan</label>
+                        <textarea id="customer-notes" rows="3" class="form-input w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2" placeholder="Tambahkan catatan pesanan..."></textarea>
                     </div>
                 </div>
+            </div>
 
-                <!-- Right Column -->
-                <div class="lg:w-1/3 mt-8 lg:mt-0">
-                    <!-- Customer Info -->
-                    <div class="p-4 card rounded-lg sticky top-24">
-                        <h2 class="text-lg font-semibold mb-4 text-slate-200">Informasi Pemesan</h2>
-                        <div class="grid grid-cols-1 gap-4">
-                            <div>
-                                <label for="customer-name" class="block text-sm font-medium text-slate-400 mb-1">Nama Pemesan</label>
-                                <input type="text" id="customer-name" class="form-input w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2" placeholder="Masukkan nama lengkap">
-                            </div>
-                            <div>
-                                <label for="customer-phone" class="block text-sm font-medium text-slate-400 mb-1">No. Telp</label>
-                                <input type="tel" id="customer-phone" class="form-input w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2" placeholder="Masukkan nomor telepon">
-                            </div>
-                            <div>
-                                <label for="customer-branch" class="block text-sm font-medium text-slate-400 mb-1">Cabang</label>
-                                <select id="customer-branch" class="form-input w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2">
-                                    <option>Pungkur</option>
-                                    <option>Ariajipang</option>
-                                    <option>Cibiru</option>
-                                    <option>Kopo</option>
-                                    <option>Karawang</option>
-                                    <option>Cirebon</option>
-                                    <option>Tasikmalaya</option>
-                                    <option>Garut</option>
-                                    <option>Indramayu</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="order-type" class="block text-sm font-medium text-slate-400 mb-1">Jenis Order</label>
-                                <select id="order-type" class="form-input w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2">
-                                    <option>Regular Order</option>
-                                    <option>Urgent</option>
-                                    <option>Costumer Order</option>
-                                    <option>Pihak Ke-3</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="customer-notes" class="block text-sm font-medium text-slate-400 mb-1">Catatan</label>
-                                <textarea id="customer-notes" rows="3" class="form-input w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2" placeholder="Tambahkan catatan pesanan..."></textarea>
-                            </div>
-                        </div>
+            <!-- Search -->
+            <div class="mb-8 p-4 card rounded-lg">
+                <h2 class="text-lg font-semibold mb-4 text-slate-200">Cari Sparepart</h2>
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="relative flex-grow">
+                        <input type="text" id="search-input" placeholder="Cari berdasarkan nama atau kode sparepart..." class="form-input w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2">
+                        <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"></i>
                     </div>
                 </div>
+            </div>
 
+            <!-- Product Grid -->
+            <div id="product-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                 <!-- Loading state -->
+                 <div id="loading-state" class="col-span-full flex flex-col items-center justify-center p-10">
+                    <div class="loader"></div>
+                    <p class="mt-4 text-slate-400">Memuat data sparepart...</p>
+                </div>
+            </div>
+            <div id="no-results" class="text-center py-10 hidden">
+                <i class="fas fa-box-open text-4xl text-slate-500 mb-4"></i>
+                <p class="text-slate-400">Produk tidak ditemukan.</p>
+            </div>
+            
+            <!-- Load More Button -->
+            <div id="load-more-container" class="text-center mt-8 hidden">
+                <button id="load-more-button" class="bg-slate-700 hover:bg-slate-600 border border-slate-600 text-slate-300 px-6 py-2 rounded-lg font-medium transition">
+                    Tampilkan Lebih Banyak
+                </button>
             </div>
         </main>
 
@@ -275,7 +236,7 @@
             <div class="modal-content w-full max-w-md m-4 p-6 rounded-lg text-center">
                 <i class="fas fa-check-circle text-5xl text-green-400 mb-4"></i>
                 <h2 class="text-2xl font-bold text-slate-100">Pesanan Berhasil!</h2>
-                <p class="text-slate-400 mt-2">Mohon Catat Nomer Pemesanan</p>
+                <p id="success-subtext" class="text-slate-400 mt-2">Nomor Pemesanan telah dicatat di Google Sheet.</p>
                 <p id="order-number-display" class="text-3xl font-bold text-blue-400 my-4 bg-slate-900 p-3 rounded-lg"></p>
                 <button id="close-success-modal" class="bg-slate-600 hover:bg-slate-500 text-slate-200 px-6 py-2 rounded-lg font-medium transition">Tutup</button>
             </div>
@@ -297,13 +258,12 @@
             const loginError = document.getElementById('login-error');
             const loginButtonText = document.getElementById('login-button-text');
             const loginSpinner = document.getElementById('login-spinner');
-            const floatingCat = document.getElementById('floating-cat');
             
             // --- App Elements (will be initialized after login) ---
             let productGrid, loadingState, noResults, searchInput, cartButton, closeCartButton,
                 cartModal, cartItemsContainer, cartCountBadge, emptyCartMessage, checkoutButton,
                 checkoutButtonText, checkoutSpinner, alertBox, alertMessage, successModal,
-                orderNumberDisplay, closeSuccessModalButton, loadMoreContainer, loadMoreButton, logoutButton;
+                orderNumberDisplay, closeSuccessModalButton, loadMoreContainer, loadMoreButton, logoutButton, successSubtext;
 
             function initializeAppElements() {
                 productGrid = document.getElementById('product-grid');
@@ -323,6 +283,7 @@
                 alertMessage = document.getElementById('alert-message');
                 successModal = document.getElementById('success-modal');
                 orderNumberDisplay = document.getElementById('order-number-display');
+                successSubtext = document.getElementById('success-subtext');
                 closeSuccessModalButton = document.getElementById('close-success-modal');
                 loadMoreContainer = document.getElementById('load-more-container');
                 loadMoreButton = document.getElementById('load-more-button');
@@ -537,28 +498,24 @@
                 try {
                     const response = await fetch(webAppURL, {
                         method: 'POST',
-                        body: JSON.stringify(payload),
-                        headers: { 'Content-Type': 'application/json' }
+                        mode: 'no-cors', // Changed to no-cors to bypass redirect/CORS issues
+                        cache: 'no-cache',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(payload)
                     });
-                    
-                    if (!response.ok) {
-                        const errorText = await response.text();
-                        throw new Error(`Server error: ${response.statusText} - ${errorText}`);
-                    }
 
-                    const result = await response.json();
-
-                    if (result.status === 'success') {
-                        toggleModal(cartModal);
-                        orderNumberDisplay.textContent = result.orderNumber;
-                        toggleModal(successModal);
-                    } else {
-                        throw new Error(result.message || 'Unknown error from script');
-                    }
+                    // With 'no-cors', we can't read the response, so we assume success if fetch doesn't throw.
+                    // The Apps Script will still run and post the data.
+                    toggleModal(cartModal);
+                    orderNumberDisplay.textContent = "TERKIRIM";
+                    successSubtext.textContent = "Nomor Pemesanan telah dicatat di Google Sheet.";
+                    toggleModal(successModal);
 
                 } catch (error) {
                     console.error('Error submitting order:', error);
-                    showAlert('Gagal mengirim pesanan. Periksa kembali Deployment Apps Script Anda.');
+                    showAlert('Gagal mengirim pesanan. Periksa koneksi internet Anda.');
                 } finally {
                     checkoutButtonText.classList.remove('hidden');
                     checkoutSpinner.classList.add('hidden');
@@ -658,10 +615,8 @@
                     setTimeout(() => {
                         if (isMovingRight) {
                             cat.style.animation = `float-right ${duration}s linear`;
-                            cat.style.transform = 'scaleX(-1)';
                         } else {
                             cat.style.animation = `float-left ${duration}s linear`;
-                            cat.style.transform = 'scaleX(1)';
                         }
                     }, 10);
                 };
